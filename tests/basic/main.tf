@@ -10,7 +10,7 @@ resource "azurerm_resource_group" "rg-mysql-test-basic" {
 }
 
 module "mysql_basic" {
-  source              = "../../"
+  source = "../../"
 
   name                = "test-mysql-basic"
   location            = azurerm_resource_group.rg-mysql-test-basic.location

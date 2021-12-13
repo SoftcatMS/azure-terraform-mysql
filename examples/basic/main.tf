@@ -1,5 +1,5 @@
 module "mysql_example" {
-  source              = "github.com/SoftcatMS/azure-terraform-mysql"
+  source = "github.com/SoftcatMS/azure-terraform-mysql"
 
   name                = "mysql-example"
   location            = azurerm_resource_group.rg-mysql-example.location
