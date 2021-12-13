@@ -130,10 +130,10 @@ variable "tags" {
 
 variable "databases" {
   description = "Databases to be deployed on Mysql instance."
-  type        = map(object({
-      resource_group_name = string
-      charset             = string
-      collation           = string
+  type = map(object({
+    resource_group_name = string
+    charset             = string
+    collation           = string
   }))
-  default     = {}
+  default = {}
 }
