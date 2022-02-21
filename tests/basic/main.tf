@@ -6,7 +6,7 @@ resource "random_password" "login_password" {
 
 resource "azurerm_resource_group" "rg-mysql-test-basic" {
   name     = "rg-test-mysql-basic-resources"
-  location = "UK South"
+  location = "westeurope"
 }
 
 module "mysql_basic" {
