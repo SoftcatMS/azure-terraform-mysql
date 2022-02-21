@@ -1,4 +1,4 @@
-# azure-terraform-mysql
+# terraform-azure-mysql
 
 Deployes a MYSQL Database in Azure
 
