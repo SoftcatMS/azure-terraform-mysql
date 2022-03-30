@@ -74,13 +74,13 @@ variable "geo_redundant_backup_enabled" {
 variable "encryption_enabled" {
   description = "Whether or not infrastructure is encrypted for this server. Defaults to false. Changing this forces a new resource to be created."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "public_access" {
   description = "Whether or not public network access is allowed for this server. Defaults to true."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "restore_point_in_time" {
@@ -98,7 +98,7 @@ variable "force_ssl" {
 variable "ssl_minimal_tls_version_enforced" {
   description = "The minimum TLS version to support on the sever. Possible values are TLSEnforcementDisabled, TLS1_0, TLS1_1, and TLS1_2. Defaults to TLSEnforcementDisabled."
   type        = string
-  default     = "TLSEnforcementDisabled"
+  default     = "TLS1_2"
 }
 
 variable "random_suffix" {
@@ -107,20 +107,39 @@ variable "random_suffix" {
   default     = false
 }
 
-# variable "threat_detection_policy" {
-#   description = "Define Threat detection Policy"
-#   type = set(object(
-#     {
-#       enabled                    = bool
-#       disabled_alerts            = list(string)
-#       email_account_admins       = bool
-#       email_addresses            = string
-#       storage_endpoint           = string
-#       storage_account_access_key = string
-#       retention_days             = number
-#     }
-#   ))
-# }
+variable "enable_threat_detection_policy" {
+  description = "Threat detection policy configuration for MySQL Server Security Alerts Policy"
+  default     = false
+}
+
+variable "threat_detection_disabled_alerts" {
+  description = "Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action."
+  type        = list(any)
+  default     = []
+}
+
+variable "threat_detection_log_retention_days" {
+  description = "Specifies the number of days to keep in the Threat Detection audit logs"
+  default     = "30"
+}
+
+variable "threat_detection_email_addresses_for_alerts" {
+  description = "A list of email addresses which alerts should be sent to."
+  type        = list(any)
+  default     = []
+}
+
+variable "threat_detection_primary_access_key" {
+  description = "Stroage Account Primary Access Key."
+  type        = string
+  default     = ""
+}
+
+variable "threat_detection_primary_blob_endpoint" {
+  description = "Stroage Account Primary Endpoint."
+  type        = string
+  default     = ""
+}
 
 variable "tags" {
   description = "Tags to apply to all resources created."

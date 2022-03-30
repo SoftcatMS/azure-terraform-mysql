@@ -6,7 +6,7 @@ module "mysql_example" {
   resource_group_name = azurerm_resource_group.rg-mysql-example.name
 
   administrator_login          = "example_admin"
-  administrator_login_password = "C0mpl3xP4ssw0rd"
+  administrator_login_password = var.password # base64 encoded password
 
   sku_name   = "GP_Gen5_2"
   storage_mb = 5120
