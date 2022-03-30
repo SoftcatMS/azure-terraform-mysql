@@ -10,6 +10,11 @@ locals {
 
 
 resource "azurerm_mysql_server" "mysql_server" {
+  #checkov:skip=CKV2_AZURE_16:Ensure that MySQL server enables customer-managed key for encryption
+  #checkov:skip=CKV_AZURE_53:Ensure 'public network access enabled' is set to 'False' for mySQL servers (Defaults to 'False' in variables)
+  #checkov:skip=CKV_AZURE_54:Ensure MySQL is using the latest version of TLS encryption (Defaults to TLS1_2 in variables)
+  #checkov:skip=CKV_AZURE_96:Ensure MySQL server enables infrastructure encryption (Defaults to true in variables)
+  #checkov:skip=CKV_AZURE_127:Ensure that My SQL server enables Threat detection policy
   name = lower(join("", [var.name, (local.suffix)]))
 
   location            = var.location
@@ -32,6 +37,20 @@ resource "azurerm_mysql_server" "mysql_server" {
   restore_point_in_time             = var.restore_point_in_time
   ssl_enforcement_enabled           = var.force_ssl
   ssl_minimal_tls_version_enforced  = var.ssl_minimal_tls_version_enforced
+
+  dynamic "threat_detection_policy" {
+    for_each = var.enable_threat_detection_policy == true ? [1] : []
+    content {
+      enabled                    = var.enable_threat_detection_policy
+      disabled_alerts            = var.threat_detection_disabled_alerts
+      email_account_admins       = var.threat_detection_email_addresses_for_alerts != null ? true : false
+      email_addresses            = var.threat_detection_email_addresses_for_alerts
+      retention_days             = var.threat_detection_log_retention_days
+      storage_account_access_key = var.threat_detection_primary_access_key
+      storage_endpoint           = var.threat_detection_primary_blob_endpoint
+    }
+  }
+
 
   tags = var.tags
 
